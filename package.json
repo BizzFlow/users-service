@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:postman": "node_modules/.bin/newman run \"./test/BizzFlow.postman_collection.json\" -e \"./test/[LOCAL].postman_environment\" --insecure"
+    "test:postman": "node_modules/.bin/newman run \"./test/postman/BizzFlow.postman_collection.json\" -e \"./test/postman/[LOCAL].postman_environment\" --insecure"
   },
   "repository": {
     "type": "git",

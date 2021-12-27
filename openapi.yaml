@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: BizzFlow - Customers API
-  description: 'API for Customers API'
+  title: BizzFlow - Users API
+  description: 'API for Users'
   termsOfService: http://swagger.io/terms/
   contact:
     email: rsouza01@gmail.com
@@ -16,39 +16,39 @@ servers:
 - url: https://petstore.swagger.io/v2
 - url: http://petstore.swagger.io/v2
 tags:
-- name: client
-  description: Operations about client
+- name: user
+  description: Operations about user
   externalDocs:
     description: Find out more about our store
     url: http://swagger.io
 paths:
-  /client:
+  /user:
     post:
       tags:
-      - client
-      summary: Create client
-      description: This can only be done by the logged in client.
-      operationId: createClient
+      - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
       requestBody:
-        description: Created client object
+        description: Created user object
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/Client'
+              $ref: '#/components/schemas/User'
         required: true
       responses:
         default:
           description: successful operation
           content: {}
       x-codegen-request-body-name: body
-  /client/{client-uuid}:
+  /user/{user-uuid}:
     get:
       tags:
-      - client
-      summary: Get client by id
-      operationId: getClientById
+      - user
+      summary: Get user by id
+      operationId: getUserById
       parameters:
-      - name: client-uuid
+      - name: user-uuid
         in: path
         description: 'The id that needs to be fetched'
         required: true
@@ -60,67 +60,19 @@ paths:
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/User'
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/User'
         400:
           description: Invalid id supplied
           content: {}
         404:
-          description: Client not found
-          content: {}
-    put:
-      tags:
-      - client
-      summary: Updated client
-      description: This can only be done by the logged in client.
-      operationId: updateClient
-      parameters:
-      - name: client-uuid
-        in: path
-        description: name that need to be updated
-        required: true
-        schema:
-          type: string
-      requestBody:
-        description: Updated client object
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/Client'
-        required: true
-      responses:
-        400:
-          description: Invalid client supplied
-          content: {}
-        404:
-          description: Client not found
-          content: {}
-      x-codegen-request-body-name: body
-    delete:
-      tags:
-      - client
-      summary: Delete client
-      description: This can only be done by the logged in client.
-      operationId: deleteClient
-      parameters:
-      - name: client-uuid
-        in: path
-        description: The name that needs to be deleted
-        required: true
-        schema:
-          type: string
-      responses:
-        400:
-          description: Invalid id supplied
-          content: {}
-        404:
-          description: Client not found
+          description: User not found
           content: {}
 components:
   schemas:
-    Client:
+    User:
       type: object
       properties:
         id:
@@ -134,16 +86,14 @@ components:
           type: string
         email:
           type: string
-        password:
-          type: string
         phone:
           type: string
-        clientStatus:
+        userStatus:
           type: integer
-          description: Client Status
+          description: User Status
           format: int32
       xml:
-        name: Client
+        name: User
     Tag:
       type: object
       properties:

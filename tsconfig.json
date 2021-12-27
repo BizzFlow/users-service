@@ -1,14 +1,40 @@
 {
-  "compilerOptions": {                        
-    "target": "es6",                               
-    "module": "commonjs",                           
-    "outDir": "./dist",                             
-    "rootDir": "./src",                             
+  "compilerOptions": {
+    "baseUrl": "./",
+    "alwaysStrict": true,
     "strict": true,
+    "module": "CommonJS",
+    "sourceMap": true,
+    "target": "ES2018",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ],
     "moduleResolution": "node",
-    "esModuleInterop": true,                       
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "ESNext"
+    ],
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./dist/",
+    "rootDir": "./src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "exclude":[
-    "./node_modules"
+  "include": [
+    "./types/**/*",
+    "./src/**/*",
+    "./test/**/*"
+  ],
+  "exclude": [
+    "./node_modules",
+    "./test/"
   ]
 }

@@ -93,8 +93,8 @@ fi
 clear
 
 printlncolor "\n\n________________________________________"
-printlncolor "Command line tester  ${_VERSION} ------"
-printlncolor '----------------------------------------'
+printlncolor "Command line tester  ${_VERSION} --------------"
+printlncolor '------------------------------------------------'
 
 printlncolor "Tests will be performed against '${_API_ADDRESS}'."
 
@@ -121,15 +121,33 @@ apiVersion=''
 # curl -i -H "Content-Type: application/json" -X GET ${_API_ADDRESS}/${apiVersion}/${endpoint}
 # echo
 
+
 endpoint='user'
-printlncolor '----------------------------------------'
+printlncolor '------------------------------------------------'
 printlncolor $endpoint
 printlncolor "Endpoint: ${_API_ADDRESS}/${endpoint}"
 printlncolor "Expected HTTP STATUS: 200 (OK)"
-printlncolor '----------------------------------------'
+printlncolor '------------------------------------------------'
+curl -i -H "Content-Type: application/json" -X POST ${_API_ADDRESS}/${endpoint} -d '{"name":"user1", "password":"password_user_1"}'
+echo
+
+printlncolor '------------------------------------------------'
+printlncolor $endpoint
+printlncolor "Endpoint: ${_API_ADDRESS}/${endpoint}"
+printlncolor "Expected HTTP STATUS: 200 (OK)"
+printlncolor '------------------------------------------------'
 curl -i -H "Content-Type: application/json" -X GET ${_API_ADDRESS}/${endpoint}
 echo
 
+
+endpoint='login'
+printlncolor '------------------------------------------------'
+printlncolor $endpoint
+printlncolor "Endpoint: ${_API_ADDRESS}/${endpoint}"
+printlncolor "Expected HTTP STATUS: 200 (OK)"
+printlncolor '------------------------------------------------'
+curl -i -H "Content-Type: application/json" -X POST ${_API_ADDRESS}/${endpoint} -d '{"name":"user1", "password":"password_user_1"}'
+echo
 
 
 echo

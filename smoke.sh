@@ -150,6 +150,15 @@ curl -i -H "Content-Type: application/json" -X POST ${_API_ADDRESS}/${endpoint} 
 echo
 
 
+endpoint='refreshToken'
+printlncolor '------------------------------------------------'
+printlncolor $endpoint
+printlncolor "Endpoint: ${_API_ADDRESS}/${endpoint}"
+printlncolor "Expected HTTP STATUS: 200 (OK)"
+printlncolor '------------------------------------------------'
+curl -i -H "Content-Type: application/json" -X POST ${_API_ADDRESS}/${endpoint} -d '{"name":"user1", "password":"password_user_1"}'
+echo
+
 echo
 
 

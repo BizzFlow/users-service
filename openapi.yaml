@@ -1,0 +1,179 @@
+openapi: 3.0.1
+info:
+  title: BizzFlow - Customers API
+  description: 'API for Customers API'
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: rsouza01@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://petstore.swagger.io/v2
+- url: http://petstore.swagger.io/v2
+tags:
+- name: client
+  description: Operations about client
+  externalDocs:
+    description: Find out more about our store
+    url: http://swagger.io
+paths:
+  /client:
+    post:
+      tags:
+      - client
+      summary: Create client
+      description: This can only be done by the logged in client.
+      operationId: createClient
+      requestBody:
+        description: Created client object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+  /client/{client-uuid}:
+    get:
+      tags:
+      - client
+      summary: Get client by id
+      operationId: getClientById
+      parameters:
+      - name: client-uuid
+        in: path
+        description: 'The id that needs to be fetched'
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Client'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        400:
+          description: Invalid id supplied
+          content: {}
+        404:
+          description: Client not found
+          content: {}
+    put:
+      tags:
+      - client
+      summary: Updated client
+      description: This can only be done by the logged in client.
+      operationId: updateClient
+      parameters:
+      - name: client-uuid
+        in: path
+        description: name that need to be updated
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated client object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      responses:
+        400:
+          description: Invalid client supplied
+          content: {}
+        404:
+          description: Client not found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - client
+      summary: Delete client
+      description: This can only be done by the logged in client.
+      operationId: deleteClient
+      parameters:
+      - name: client-uuid
+        in: path
+        description: The name that needs to be deleted
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: Invalid id supplied
+          content: {}
+        404:
+          description: Client not found
+          content: {}
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nickname:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        clientStatus:
+          type: integer
+          description: Client Status
+          format: int32
+      xml:
+        name: Client
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: Tag
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

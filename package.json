@@ -1,42 +1,28 @@
 {
   "name": "users-service",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "<h1 align=\"center\">Welcome to USERS-SERVICE 👋</h1> <p>   <a href=\"https://www.npmjs.com/package/users-service\" target=\"_blank\">     <img alt=\"Version\" src=\"https://img.shields.io/npm/v/users-service.svg\">   </a>   <a href=\"https://github.com/BizzFlow/users-service#readme\" target=\"_blank\">     <img alt=\"Documentation\" src=\"https://img.shields.io/badge/documentation-yes-brightgreen.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/graphs/commit-activity\" target=\"_blank\">     <img alt=\"Maintenance\" src=\"https://img.shields.io/badge/Maintained%3F-yes-green.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/blob/master/LICENSE\" target=\"_blank\">     <img alt=\"License: MIT\" src=\"https://img.shields.io/github/license/BizzFlow/users-service\" />   </a> </p>",
+  "main": "./src/index.js",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test:postman": "node_modules/.bin/newman run \"./test/postman/BizzFlow.postman_collection.json\" -e \"./test/postman/[LOCAL].postman_environment\" --insecure"
+    "sls:validate": "sls deploy --noDeploy",
+    "sls:deploy": "sls deploy",
+    "sls:undeploy": "sls remove",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BizzFlow/users-service.git"
   },
-  "keywords": [],
   "author": "Rodrigo de Souza <rsouza01@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BizzFlow/users-service/issues"
   },
   "homepage": "https://github.com/BizzFlow/users-service#readme",
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/express": "^4.17.13",
-    "@types/jest": "^27.0.3",
-    "@types/jsonwebtoken": "^8.5.6",
-    "@types/node": "^17.0.5",
-    "jest": "^27.4.5",
-    "newman": "^5.3.0",
-    "newman-reporter-csv": "^1.2.0",
-    "newman-reporter-html": "^1.0.5",
-    "newman-reporter-htmlextra": "^1.22.3",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
-  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "express": "^4.17.2",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^8.3.2"
   }
 }

@@ -2,12 +2,46 @@
   "name": "users-service",
   "version": "1.0.0",
   "description": "<h1 align=\"center\">Welcome to USERS-SERVICE 👋</h1> <p>   <a href=\"https://www.npmjs.com/package/users-service\" target=\"_blank\">     <img alt=\"Version\" src=\"https://img.shields.io/npm/v/users-service.svg\">   </a>   <a href=\"https://github.com/BizzFlow/users-service#readme\" target=\"_blank\">     <img alt=\"Documentation\" src=\"https://img.shields.io/badge/documentation-yes-brightgreen.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/graphs/commit-activity\" target=\"_blank\">     <img alt=\"Maintenance\" src=\"https://img.shields.io/badge/Maintained%3F-yes-green.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/blob/master/LICENSE\" target=\"_blank\">     <img alt=\"License: MIT\" src=\"https://img.shields.io/github/license/BizzFlow/users-service\" />   </a> </p>",
-  "main": "./src/index.js",
+  "main": "index.js",
   "scripts": {
-    "sls:validate": "sls deploy --noDeploy",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "local": "serverless offline",
+    "deploy": "serverless deploy",
+    "test": "cross-env NODE_ENV=dev mocha -r ts-node/register tests/*.test.ts --exit",
+    "coverage": "nyc --reporter lcov npm run test",
+    "sls:package": "sls package",
     "sls:deploy": "sls deploy",
-    "sls:undeploy": "sls remove",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sls:undeploy": "sls remove"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.9.10"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.51",
+    "@types/chai": "^4.2.11",
+    "@types/dotenv-safe": "^8.1.0",
+    "@types/lambda-tester": "^3.6.0",
+    "@types/mocha": "^7.0.2",
+    "@types/mongoose": "^5.7.14",
+    "@types/sinon": "^9.0.0",
+    "@types/supertest": "^2.0.8",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "istanbul": "^0.4.5",
+    "lambda-tester": "^4.0.1",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
+    "serverless-offline": "^5.12.1",
+    "serverless-plugin-typescript": "^1.1.9",
+    "sinon": "^9.0.2",
+    "ts-node": "^8.9.1",
+    "tslint": "^6.1.2",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.8.3"
   },
   "repository": {
     "type": "git",
@@ -19,10 +53,11 @@
     "url": "https://github.com/BizzFlow/users-service/issues"
   },
   "homepage": "https://github.com/BizzFlow/users-service#readme",
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "express": "^4.17.2",
-    "jsonwebtoken": "^8.5.1",
-    "uuid": "^8.3.2"
-  }
+  "keywords": [
+    "Nodejs",
+    "TypeScript",
+    "ServerLess",
+    "MongoDB Atlas",
+    "AWS Lambda"
+  ]
 }

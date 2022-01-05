@@ -44,6 +44,9 @@ npm run test
 ## References
 
 * https://medium.com/@prashantramnyc/authenticate-rest-apis-in-node-js-using-jwt-json-web-tokens-f0e97669aad3
+* https://codeforgeek.com/serverless-framework-tutorial-using-aws-lambda/
+* https://www.serverless.com/category/guides-and-tutorials
+* https://www.serverless.com/examples/aws-node-rest-api-typescript-simple
 
 ## 🤝 Contributing
 

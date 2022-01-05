@@ -1,3 +1,13 @@
+node_modules
+jspm_packages
+
+.serverless
+.build
+.nyc_output
+coverage
+out-logger.json
+.DS_Store
+
 temp/
 src/**/*.js
 src/**/*.map

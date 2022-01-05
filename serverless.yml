@@ -2,6 +2,9 @@ service: users-service
 app: bizzflow
 frameworkVersion: "2"
 
+custom:
+  application: BizzFlow
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -11,6 +14,7 @@ provider:
   region: eu-central-1
 
   environment:
+    NODE_ENV: dev
     SYSTEM: ${self:service}-${opt:stage, self:provider.stage}
     USERS_TABLE: users-${opt:stage, self:provider.stage}
   iamRoleStatements:
@@ -24,15 +28,82 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}"
 
-functions:
-  get:
-    handler: src/adapters/aws/users/get.handler
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
 
+package:
+  exclude:
+    - config/.env.stg
+    - config/.env.pro
+  include:
+    - config/.env.dev
+  patterns:
+    - "!node_modules/**"
+    - "!vscode/**"
+    - "!bkp/**"
+
+functions:
+  create:
+    handler: src/handler.create
+    description: ${self:custom.application}(${self:service}) > handler for user creation
     events:
       - http:
-          path: user
+          path: users
+          method: post
+    tags:
+      application: ${self:custom.application}
+      service: ${self:service}
+      crudMethodAbbreviation: C
+      crudMethod: CREATION
+  update:
+    handler: src/handler.update
+    description: ${self:custom.application}(${self:service}) > handler for user update
+    events:
+      - http:
+          path: users/{id}
+          method: put
+    tags:
+      application: ${self:custom.application}
+      service: ${self:service}
+      crudMethodAbbreviation: U
+      crudMethod: UPDATE
+  find:
+    handler: src/handler.find
+    description: ${self:custom.application}(${self:service}) > handler for users query
+    events:
+      - http:
+          path: users
           method: get
-          cors: true
+    tags:
+      application: ${self:custom.application}
+      service: ${self:service}
+      crudMethodAbbreviation: R
+      crudMethod: RETRIEVE
+  findOne:
+    handler: src/handler.findOne
+    description: ${self:custom.application}(${self:service}) > handler for user query by id
+    events:
+      - http:
+          path: users/{id}
+          method: get
+    tags:
+      application: ${self:custom.application}
+      service: ${self:service}
+      crudMethodAbbreviation: R
+      crudMethod: RETRIEVE
+  deleteOne:
+    handler: src/handler.deleteOne
+    description: ${self:custom.application}(${self:service}) > handler for user deletion
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+    tags:
+      application: ${self:custom.application}
+      service: ${self:service}
+      crudMethodAbbreviation: D
+      crudMethod: DELETE
 
 resources:
   Resources:
@@ -49,12 +120,6 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.USERS_TABLE}
-
-package:
-  patterns:
-    - "!node_modules/**"
-    - "!vscode/**"
-    - "!bkp/**"
 # you can add statements to the Lambda function's IAM Role here
 #  iam:
 #    role:

@@ -120,6 +120,11 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.USERS_TABLE}
+        Tags:
+          - Key: "application"
+            Value: ${self:custom.application}
+          - Key: "service"
+            Value: ${self:service}
 # you can add statements to the Lambda function's IAM Role here
 #  iam:
 #    role:

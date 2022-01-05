@@ -47,6 +47,9 @@ npm run test
 * https://codeforgeek.com/serverless-framework-tutorial-using-aws-lambda/
 * https://www.serverless.com/category/guides-and-tutorials
 * https://www.serverless.com/examples/aws-node-rest-api-typescript-simple
+* https://itnext.io/exploring-an-openapi-swagger-first-approach-to-serverless-development-on-aws-d19f0e9ca257
+* https://towardsaws.com/4-api-gateway-serverless-authentication-techniques-3767fc0968bd
+* https://levelup.gitconnected.com/creating-a-simple-serverless-application-using-typescript-and-aws-part-2-2f9192717015
 
 ## 🤝 Contributing
 

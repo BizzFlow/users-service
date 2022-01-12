@@ -1,14 +1,21 @@
 service: users-service
 app: bizzflow
 frameworkVersion: "2"
+description: BizzFlow User management service
 
 custom:
   application: BizzFlow
+  authorizerId:
+    {
+      "Fn::ImportValue": "sls-users-authoriser-dev-BasicUserAuthorizerLambdaFunctionQualifiedArn",
+    }
 
 provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: 20201221
+  stackName: ${self:service}-${opt:stage, self:provider.stage}-stack
+  apiName: ${self:service}-${opt:stage, self:provider.stage}-api
 
   stage: dev
   region: eu-central-1
@@ -17,6 +24,8 @@ provider:
     NODE_ENV: dev
     SYSTEM: ${self:service}-${opt:stage, self:provider.stage}
     USERS_TABLE: users-${opt:stage, self:provider.stage}
+    AUTHORISER_ARN: ${self:custom.authorizerId}
+
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -87,6 +96,10 @@ functions:
       - http:
           path: users/{id}
           method: get
+          # authorizer:
+          #   type: CUSTOM
+          # arn: ${self:custom.authorizerId}
+
     tags:
       application: ${self:custom.application}
       service: ${self:service}

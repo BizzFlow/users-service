@@ -15,20 +15,23 @@ export class UsersController extends UsersService {
    */
   async create(event: any, context?: Context) {
     console.log('functionName', context.functionName);
+    console.log('event', JSON.stringify(event, null, 2));
+
     const params: CreateUserDTO = JSON.parse(event.body);
 
-    try {
-      const result = await this.createUser({
-        name: params.name,
-        id: params.id,
-      });
+    console.log('params', JSON.stringify(params, null, 2));
 
-      return MessageUtil.success(result);
-    } catch (err) {
-      console.error(err);
+    // try {
+    //   const result = await this.createUser({
+    //     name: params.name,
+    //     id: params.id,
+    //   });
 
-      return MessageUtil.error(err.code, err.message);
-    }
+    //   return MessageUtil.success(result);
+    // } catch (err) {
+    //   console.error(err);
+    //   return MessageUtil.error(err.code, err.message);
+    // }
   }
 
   /**

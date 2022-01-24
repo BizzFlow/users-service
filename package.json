@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "<h1 align=\"center\">Welcome to USERS-SERVICE 👋</h1> <p>   <a href=\"https://www.npmjs.com/package/users-service\" target=\"_blank\">     <img alt=\"Version\" src=\"https://img.shields.io/npm/v/users-service.svg\">   </a>   <a href=\"https://github.com/BizzFlow/users-service#readme\" target=\"_blank\">     <img alt=\"Documentation\" src=\"https://img.shields.io/badge/documentation-yes-brightgreen.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/graphs/commit-activity\" target=\"_blank\">     <img alt=\"Maintenance\" src=\"https://img.shields.io/badge/Maintained%3F-yes-green.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/blob/master/LICENSE\" target=\"_blank\">     <img alt=\"License: MIT\" src=\"https://img.shields.io/github/license/BizzFlow/users-service\" />   </a> </p>",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "clean": "rm -rf node_modules/ reports/ .webpack/ ./dist ./coverage ./serverless",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "local": "serverless offline",
     "deploy": "serverless deploy",
@@ -17,18 +19,21 @@
     "lint"
   ],
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "mongoose": "^5.9.10"
+    "@middy/core": "^3.0.0-alpha.5",
+    "@middy/http-error-handler": "^3.0.0-alpha.5",
+    "@middy/http-event-normalizer": "^3.0.0-alpha.5",
+    "@middy/http-json-body-parser": "^3.0.0-alpha.5",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.51",
+    "@types/aws-lambda": "^8.10.90",
     "@types/chai": "^4.2.11",
     "@types/dotenv-safe": "^8.1.0",
     "@types/lambda-tester": "^3.6.0",
     "@types/mocha": "^7.0.2",
-    "@types/mongoose": "^5.7.14",
     "@types/sinon": "^9.0.0",
     "@types/supertest": "^2.0.8",
+    "@types/uuid": "^8.3.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "istanbul": "^0.4.5",
@@ -37,6 +42,7 @@
     "nyc": "^15.0.1",
     "serverless-domain-manager": "^5.3.0",
     "serverless-dotenv-plugin": "^3.12.2",
+    "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^5.12.1",
     "serverless-plugin-typescript": "^1.1.9",
     "sinon": "^9.0.2",

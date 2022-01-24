@@ -9,7 +9,8 @@
       ],
       "linterOptions": {
         "exclude": [
-          "tests/*users.mock.ts"
+          "tests/*users.mock.ts",
+          "temp/**/*.ts"
         ]
       }
     }

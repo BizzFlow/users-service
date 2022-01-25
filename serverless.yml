@@ -60,11 +60,12 @@ provider:
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}"
 
 plugins:
-  - serverless-plugin-typescript
+  # - serverless-plugin-typescript
+  - serverless-esbuild
+  - serverless-offline
   - serverless-dotenv-plugin
   - serverless-domain-manager
   - serverless-dynamodb-local
-  - serverless-offline
 
 package:
   exclude:

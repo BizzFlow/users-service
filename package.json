@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "<h1 align=\"center\">Welcome to USERS-SERVICE 👋</h1> <p>   <a href=\"https://www.npmjs.com/package/users-service\" target=\"_blank\">     <img alt=\"Version\" src=\"https://img.shields.io/npm/v/users-service.svg\">   </a>   <a href=\"https://github.com/BizzFlow/users-service#readme\" target=\"_blank\">     <img alt=\"Documentation\" src=\"https://img.shields.io/badge/documentation-yes-brightgreen.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/graphs/commit-activity\" target=\"_blank\">     <img alt=\"Maintenance\" src=\"https://img.shields.io/badge/Maintained%3F-yes-green.svg\" />   </a>   <a href=\"https://github.com/BizzFlow/users-service/blob/master/LICENSE\" target=\"_blank\">     <img alt=\"License: MIT\" src=\"https://img.shields.io/github/license/BizzFlow/users-service\" />   </a> </p>",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "clean": "rm -rf node_modules/ reports/ .webpack/ ./dist ./coverage ./serverless",
+    "clean": "rm -rf node_modules/ reports/ .webpack/ .build/ .dist/ .coverage/ .serverless/",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "local": "serverless offline",
     "deploy": "serverless deploy",
@@ -26,6 +25,7 @@
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
+    "esbuild": "^0.14.14",
     "@types/aws-lambda": "^8.10.90",
     "@types/chai": "^4.2.11",
     "@types/dotenv-safe": "^8.1.0",
@@ -40,6 +40,7 @@
     "lambda-tester": "^4.0.1",
     "mocha": "^7.1.2",
     "nyc": "^15.0.1",
+    "serverless-esbuild": "^1.23.3",
     "serverless-domain-manager": "^5.3.0",
     "serverless-dotenv-plugin": "^3.12.2",
     "serverless-dynamodb-local": "^0.2.40",

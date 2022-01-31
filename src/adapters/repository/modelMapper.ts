@@ -1,3 +1,3 @@
 export default interface ModelMapper<T> {
-	mapToCoreModel(element: any): T;
+  mapToCoreModel(element: any): T;
 }

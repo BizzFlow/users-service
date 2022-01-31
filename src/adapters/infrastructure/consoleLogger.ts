@@ -1,4 +1,4 @@
-import { Logger } from "../../usecases/ports/infrastructure";
+import { Logger } from '../../usecases/ports/infrastructure';
 
 /**
  * Logger implementation for the Web application, using console (mainly for the tests)

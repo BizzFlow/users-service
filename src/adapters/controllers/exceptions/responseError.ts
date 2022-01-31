@@ -1,4 +1,4 @@
-import BaseException from "./baseException";
+import BaseException from './baseException';
 
 export default class ResponseError extends BaseException {
   public stack: any;

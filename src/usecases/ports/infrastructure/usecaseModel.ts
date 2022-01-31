@@ -8,5 +8,4 @@ interface UseCaseRequest {
   [key: string]: any;
 }
 
-
-export { UseCaseRequest, UseCaseResponse}
+export { UseCaseRequest, UseCaseResponse };

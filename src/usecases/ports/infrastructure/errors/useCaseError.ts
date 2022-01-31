@@ -1,4 +1,4 @@
-import { CoreBaseError, ErrorObject } from "..";
+import { CoreBaseError, ErrorObject } from '..';
 
 class UseCaseError extends CoreBaseError {
   constructor(errorObj: ErrorObject, data: any = {}) {

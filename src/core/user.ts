@@ -1,6 +1,6 @@
 export default interface User {
+  userId: string;
   name: string;
-  userId: number;
   description?: string;
   active: boolean;
   createdAt: string;

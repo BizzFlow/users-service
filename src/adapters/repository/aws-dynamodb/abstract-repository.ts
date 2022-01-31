@@ -1,8 +1,13 @@
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { CRUDRepository } from '../../../usecases/ports/infrastructure';
 
-export default abstract class AbstractAWSDynamoDBRepository<T, K> implements CRUDRepository<T, K> {
-  constructor(protected readonly docClient: DocumentClient, protected readonly tableName: string) {}
+export default abstract class AbstractAWSDynamoDBRepository<T, K>
+  implements CRUDRepository<T, K>
+{
+  constructor(
+    protected readonly docClient: DocumentClient,
+    protected readonly tableName: string
+  ) {}
 
   async findAll(): Promise<T[]> {
     throw new Error('Method not implemented.');
@@ -13,6 +18,9 @@ export default abstract class AbstractAWSDynamoDBRepository<T, K> implements CRU
   }
 
   async add(item: T): Promise<T> {
+    console.log(`TABLE => ${this.tableName}`);
+    console.log(`ITEM => ${JSON.stringify(item, null, 2)}`);
+
     await this.docClient
       .put({
         TableName: this.tableName,

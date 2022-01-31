@@ -3,6 +3,7 @@ app: bizzflow
 frameworkVersion: "2"
 
 custom:
+  environment: ${env:NODE_ENV, 'dev'}
   application: BizzFlow
   customDomain:
     domainName: users.api.bizzflow.link
@@ -21,23 +22,24 @@ custom:
       inMemory: true
       migrate: true
     stages:
-      - dev
+      - ${self:custom.environment}
 provider:
   name: aws
   runtime: nodejs14.x
-  lambdaHashingVersion: 20201221
-  stackName: ${self:service}-${opt:stage, self:provider.stage}-stack
-  apiName: ${self:service}-${opt:stage, self:provider.stage}-api
+  stage:  ${env:NODE_ENV, 'dev'}
+  region: ${env:REGION, 'eu-central-1'}
 
-  stage: dev
-  region: eu-central-1
+  lambdaHashingVersion: 20201221
+  stackName: ${self:service}-${self:custom.environment}-stack
+  apiName: ${self:service}-${self:custom.environment}-api
+
   memorySize: 128
-  timeout: 5
+  timeout: 20
 
   environment:
-    NODE_ENV: dev
-    SYSTEM: ${self:service}-${opt:stage, self:provider.stage}
-    USERS_TABLE: users-${opt:stage, self:provider.stage}
+    NODE_ENV: ${env:NODE_ENV}
+    SYSTEM: ${self:service}-${self:custom.environment}
+    USERS_TABLE: users-${self:custom.environment}
     # AUTHORISER_ARN: ${self:custom.authorizerId}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
 
@@ -72,7 +74,7 @@ package:
     - config/.env.stg
     - config/.env.pro
   include:
-    - config/.env.dev
+    - config/.env.${self:custom.environment}
   patterns:
     # - "!node_modules/**"
     - "!vscode/**"

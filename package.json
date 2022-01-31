@@ -13,7 +13,8 @@
     "coverage": "nyc --reporter lcov npm run test",
     "sls:package": "sls package",
     "sls:deploy": "sls deploy",
-    "sls:undeploy": "sls remove"
+    "sls:undeploy": "sls remove",
+    "sls:clean-deploy": "npm run sls:undeploy ; npm run sls:deploy"
   },
   "pre-commit": [
     "lint"
@@ -27,7 +28,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.90",
+    "@types/aws-lambda": "^8.10.92",
     "@types/chai": "^4.2.11",
     "@types/dotenv-safe": "^8.1.0",
     "@types/lambda-tester": "^3.6.0",

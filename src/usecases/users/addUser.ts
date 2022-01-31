@@ -9,8 +9,8 @@ export default class AddUserUseCase implements UseCase {
 
   async execute(input: UseCaseRequest): Promise<User> {
     try {
-      console.log(`INPUT => ${JSON.stringify(input, null, 2)}`);
-      return await this.repository.add(input.user);
+      const user: User = input.user;
+      return await this.repository.add(user);
     } catch (error) {
       throw new UseCaseError(
         {

@@ -18,9 +18,8 @@ servers:
 tags:
 - name: user
   description: Operations about user
-  externalDocs:
-    description: Find out more about our store
-    url: http://swagger.io
+- name: authentication
+  description: Operations about user authentication
 paths:
   /user:
     post:
@@ -70,6 +69,25 @@ paths:
         404:
           description: User not found
           content: {}
+  /login:
+    post:
+      tags:
+      - authentication
+      summary: Log user
+      description: This can be used to log in a user
+      operationId: authUser
+      requestBody:
+        description: Login user object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
 components:
   schemas:
     User:

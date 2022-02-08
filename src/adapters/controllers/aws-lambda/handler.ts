@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { genSaltSync, hashSync } from 'bcryptjs';
+import crypto from 'crypto';
 
 import middleware from './middleware';
 
@@ -44,6 +46,10 @@ export const create: Handler = middleware(
 );
 
 const mapEventToType = (event: CreateUserEvent): User => {
+  const password = crypto.randomBytes(32).toString('hex');
+  const salt = genSaltSync(10);
+  const digest = hashSync(password, salt);
+
   return {
     userId: uuidv4(),
     profile: {
@@ -51,7 +57,7 @@ const mapEventToType = (event: CreateUserEvent): User => {
       lastName: event.lastName,
       description: event.description,
       email: event.email,
-      password: event.password,
+      password: password,
     },
     active: true,
     createdAt: new Date().toISOString(),

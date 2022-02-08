@@ -4,3 +4,5 @@ https://dev.to/jericopingul/how-to-create-and-deploy-a-to-do-crud-service-using-
 
 
 https://stackoverflow.com/questions/68465148/can-not-import-modules-from-lambda-layers-with-serverless-framework-and-typescri
+
+https://auth0.com/docs/customize/integrations/aws/aws-api-gateway-custom-authorizers

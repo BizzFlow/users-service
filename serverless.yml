@@ -1,6 +1,7 @@
 service: users-service
 app: bizzflow
 frameworkVersion: "2"
+description: BizzFlow User Management nanoservice.
 
 custom:
   environment: ${env:NODE_ENV, 'dev'}
@@ -10,10 +11,7 @@ custom:
     basePath: ${opt:stage, self:provider.stage}
     stage: ${self:provider.stage}
     createRoute53Record: true
-  # authorizerId:
-  #   {
-  #     "Fn::ImportValue": "sls-users-authoriser-dev-BasicUserAuthorizerLambdaFunctionQualifiedArn",
-  #   }
+
   serverless-offline:
     httpPort: 3003
   dynamodb:
@@ -88,6 +86,11 @@ functions:
       - http:
           path: users
           method: post
+          authorizer:
+            type: TOKEN
+            arn: "arn:aws:lambda:eu-central-1:491406350155:function:users-authoriser-dev-authorizer"
+
+              
     tags:
       crudMethodAbbreviation: C
       crudMethod: CREATION

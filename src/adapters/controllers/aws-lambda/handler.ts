@@ -34,6 +34,9 @@ export const create: Handler = middleware(
     event: APIGatewayEvent,
     _context: Context
   ): Promise<APIGatewayProxyResult> => {
+    console.log(`>>>> event => ${JSON.stringify(event, null, 2)}`);
+    console.log(`>>>> context => ${JSON.stringify(_context, null, 2)}`);
+
     const addUserUseCase = new AddUserUseCase(
       new UserRepository(createDynamoDBClient(), process.env.USERS_TABLE)
     );

@@ -1,0 +1,239 @@
+service: users-service
+app: bizzflow
+frameworkVersion: "2"
+description: BizzFlow User Management nanoservice.
+
+custom:
+  environment: ${env:NODE_ENV, 'dev'}
+  application: BizzFlow
+  customDomain:
+    domainName: users.api.bizzflow.link
+    basePath: ${opt:stage, self:provider.stage}
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+
+  serverless-offline:
+    httpPort: 3003
+  dynamodb:
+    start:
+      port: 5000
+      inMemory: true
+      migrate: true
+    stages:
+      - ${self:custom.environment}
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage:  ${env:NODE_ENV, 'dev'}
+  region: ${env:REGION, 'eu-central-1'}
+
+  lambdaHashingVersion: 20201221
+  stackName: ${self:service}-${self:custom.environment}-stack
+  apiName: ${self:service}-${self:custom.environment}-api
+
+  memorySize: 128
+  timeout: 20
+
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+    SYSTEM: ${self:service}-${self:custom.environment}
+    USERS_TABLE: users-${self:custom.environment}
+    # AUTHORISER_ARN: ${self:custom.authorizerId}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+
+  stackTags:
+    service: ${self:service}
+    application: ${self:custom.application}
+  tags:
+    application: ${self:custom.application}
+    service: ${self:service}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}"
+
+plugins:
+  # - serverless-plugin-typescript
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-domain-manager
+  - serverless-dynamodb-local
+
+package:
+  exclude:
+    - config/.env.stg
+    - config/.env.pro
+  include:
+    - config/.env.${self:custom.environment}
+  patterns:
+    # - "!node_modules/**"
+    - "!vscode/**"
+    - "!bkp/**"
+
+functions:
+  create:
+    handler: src/adapters/controllers/aws-lambda/handler.create
+    description: ${self:custom.application}(${self:service}) > handler for user creation
+    events:
+      - http:
+          path: users
+          method: post
+          authorizer:
+            type: TOKEN
+            arn: "arn:aws:lambda:eu-central-1:491406350155:function:users-authoriser-dev-authorizer"
+
+              
+    tags:
+      crudMethodAbbreviation: C
+      crudMethod: CREATION
+  # update:
+  #   handler: src/handler.update
+  #   description: ${self:custom.application}(${self:service}) > handler for user update
+  #   events:
+  #     - http:
+  #         path: users/{id}
+  #         method: put
+  #   tags:
+  #     crudMethodAbbreviation: U
+  #     crudMethod: UPDATE
+  # find:
+  #   handler: src/handler.find
+  #   description: ${self:custom.application}(${self:service}) > handler for users query
+  #   events:
+  #     - http:
+  #         path: users
+  #         method: get
+  #   tags:
+  #     crudMethodAbbreviation: R
+  #     crudMethod: RETRIEVE
+  # findOne:
+  #   handler: src/handler.findOne
+  #   description: ${self:custom.application}(${self:service}) > handler for user query by id
+  #   events:
+  #     - http:
+  #         path: users/{id}
+  #         method: get
+  #         # authorizer:
+  #         #   type: CUSTOM
+  #         # arn: ${self:custom.authorizerId}
+
+  #   tags:
+  #     crudMethodAbbreviation: R
+  #     crudMethod: RETRIEVE
+  # deleteOne:
+  #   handler: src/handler.deleteOne
+  #   description: ${self:custom.application}(${self:service}) > handler for user deletion
+  #   events:
+  #     - http:
+  #         path: users/{id}
+  #         method: delete
+  #   tags:
+  #     crudMethodAbbreviation: D
+  #     crudMethod: DELETE
+
+resources:
+  Resources:
+    UsersDynamoDbTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.USERS_TABLE}
+#  iam:
+#    role:
+#      statements:
+#        - Effect: "Allow"
+#          Action:
+#            - "s3:ListBucket"
+#          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+#        - Effect: "Allow"
+#          Action:
+#            - "s3:PutObject"
+#          Resource:
+#            Fn::Join:
+#              - ""
+#              - - "arn:aws:s3:::"
+#                - "Ref" : "ServerlessDeploymentBucket"
+#                - "/*"
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+# you can add packaging information here
+#package:
+#  patterns:
+#    - '!exclude-me.js'
+#    - '!exclude-me-dir/**'
+#    - include-me.js
+#    - include-me-dir/**
+
+# functions:
+#   hello:
+#     handler: handler.hello
+#    The following are a few example events you can configure
+#    NOTE: Please make sure to change your handler code to work with those events
+#    Check the event documentation for details
+#    events:
+#      - httpApi:
+#          path: /users/create
+#          method: get
+#      - websocket: $connect
+#      - s3: ${env:BUCKET}
+#      - schedule: rate(10 minutes)
+#      - sns: greeter-topic
+#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
+#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
+#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
+#      - iot:
+#          sql: "SELECT * FROM 'some_topic'"
+#      - cloudwatchEvent:
+#          event:
+#            source:
+#              - "aws.ec2"
+#            detail-type:
+#              - "EC2 Instance State-change Notification"
+#            detail:
+#              state:
+#                - pending
+#      - cloudwatchLog: '/aws/lambda/hello'
+#      - cognitoUserPool:
+#          pool: MyUserPool
+#          trigger: PreSignUp
+#      - alb:
+#          listenerArn: arn:aws:elasticloadbalancing:us-east-1:XXXXXX:listener/app/my-load-balancer/50dc6c495c0c9188/
+#          priority: 1
+#          conditions:
+#            host: example.com
+#            path: /hello
+
+#    Define function environment variables here
+#    environment:
+#      variable2: value2
+
+# you can add CloudFormation resource templates here
+#resources:
+#  Resources:
+#    NewResource:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: my-new-bucket
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"
